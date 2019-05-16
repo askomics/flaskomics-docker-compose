@@ -1,0 +1,86 @@
+version: "3"
+services:
+    askomics:
+        image: xgaia/flaskomics
+        environment:
+            ASKO_flask_secret_key: TZHGirjLmslTaBgKcseK
+            ASKO_celery_broker_url: redis://redis:6379
+            ASKO_celery_result_backend: redis://redis:6379
+            ASKO_askomics_debug: "false"
+            ASKO_askomics_debug_ttl: "false"
+            ASKO_askomics_footer_message: "Welcome to (dockerized) AskOmics!"
+            ASKO_askomics_data_directory: /tmp/askomics
+            ASKO_askomics_database_path: /tmp/askomics/database.db
+            ASKO_askomics_password_salt: Rjm0zeMmb8lXCGUbh6Ud
+            ASKO_askomics_default_locked_account: "false"
+            ASKO_triplestore_triplestore: virtuoso
+            ASKO_triplestore_endpoint: http://virtuoso:8890/sparql
+            ASKO_triplestore_updatepoint: http://virtuoso:8890/sparql
+            ASKO_triplestore_username: dba
+            ASKO_triplestore_password: rlHesft1Q
+            ASKO_triplestore_load_url: http://askomics:5000/
+            ASKO_triplestore_upload_method: load
+            ASKO_triplestore_default_graph: urn:sparql:askomics
+            ASKO_triplestore_users_graph: urn:sparql:askomics:users
+        volumes:
+            - ./output/askomics:/tmp/askomics
+
+    celery_askomics:
+        image: xgaia/celery-flaskomics
+        environment:
+            ASKO_flask_secret_key: TZHGirjLmslTaBgKcseK
+            ASKO_celery_broker_url: redis://redis:6379
+            ASKO_celery_result_backend: redis://redis:6379
+            ASKO_askomics_debug: "false"
+            ASKO_askomics_debug_ttl: "false"
+            ASKO_askomics_footer_message: "Welcome to (dockerized) AskOmics!"
+            ASKO_askomics_data_directory: /tmp/askomics
+            ASKO_askomics_database_path: /tmp/askomics/database.db
+            ASKO_askomics_password_salt: Rjm0zeMmb8lXCGUbh6Ud
+            ASKO_askomics_default_locked_account: "false"
+            ASKO_triplestore_triplestore: virtuoso
+            ASKO_triplestore_endpoint: http://virtuoso:8890/sparql
+            ASKO_triplestore_updatepoint: http://virtuoso:8890/sparql
+            ASKO_triplestore_username: dba
+            ASKO_triplestore_password: rlHesft1Q
+            ASKO_triplestore_load_url: http://askomics:5000/
+            ASKO_triplestore_upload_method: load
+            ASKO_triplestore_default_graph: urn:sparql:askomics
+            ASKO_triplestore_users_graph: urn:sparql:askomics:users
+        volumes:
+            - ./output/askomics:/tmp/askomics
+
+    redis:
+        image: redis:4.0
+
+    virtuoso:
+        image: askomics/virtuoso
+        environment:
+            VIRT_Parameters_NumberOfBuffers: 10000   # See virtuoso/README.md to adapt value of this line
+            VIRT_Parameters_MaxDirtyBuffers: 6000    # See virtuoso/README.md to adapt value of this line
+            VIRT_Parameters_TN_MAX_memory: 4000000000
+            VIRT_SPARQL_ResultSetMaxRows: 100000000 # same as ASKO_triplestore_results_max_rows in askomics image
+            VIRT_SPARQL_MaxDataSourceSize: 1000000000
+            VIRT_Flags_TN_MAX_memory: 4000000000
+            VIRT_StopCompilerWhenXOverRunTime: 1
+            VIRT_MaxQueryCostEstimationTime: 400000
+            VIRT_MaxQueryExecutionTime: 60000000
+            DBA_PASSWORD: rlHesft1Q
+            SPARQL_UPDATE: "true"
+            DEFAULT_GRAPH: http://localhost:8890/DAV
+        volumes:
+            - ./output/virtuoso:/data
+
+    nginx:
+        image: nginx:1.15
+        volumes:
+            - ./nginx.conf:/tmp/nginx.conf
+            - ./output/nginx/log:/var/log/nginx
+        ports:
+            - "80:80"
+        environment:
+            NGINX_HOST: localhost
+            NGINX_PORT: 80
+            ASKOMICS_URL: askomics
+            TPS_URL: virtuoso
+        command: /bin/bash -c "envsubst < /tmp/nginx.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
