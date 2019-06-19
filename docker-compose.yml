@@ -63,10 +63,8 @@ services:
             VIRT_Parameters_TN_MAX_memory: 4000000000
             VIRT_SPARQL_ResultSetMaxRows: 100000000 # same as ASKO_result_set_max_rows in askomics and askomics_celery
             VIRT_SPARQL_MaxDataSourceSize: 1000000000
-            VIRT_Flags_TN_MAX_memory: 4000000000
-            VIRT_StopCompilerWhenXOverRunTime: 1
-            VIRT_MaxQueryCostEstimationTime: 400000
-            VIRT_MaxQueryExecutionTime: 60000000
+            VIRT_SPARQL_MaxQueryCostEstimationTime: 400000
+            VIRT_SPARQL_MaxQueryExecutionTime: 60000000
             DBA_PASSWORD: rlHesft1Q # Same as ASKO_triplestore_password in askomics and askomics_celery
             SPARQL_UPDATE: "true"
             DEFAULT_GRAPH: http://localhost:8890/DAV
