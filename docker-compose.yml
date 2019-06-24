@@ -3,6 +3,7 @@ services:
     askomics:
         image: xgaia/flaskomics
         environment:
+            DEPMODE: prod
             ASKO_flask_secret_key: TZHGirjLmslTaBgKcseK
             ASKO_celery_broker_url: redis://redis:6379
             ASKO_celery_result_backend: redis://redis:6379
@@ -29,6 +30,7 @@ services:
     celery_askomics:
         image: xgaia/celery-flaskomics
         environment:
+            DEPMODE: prod
             ASKO_flask_secret_key: TZHGirjLmslTaBgKcseK
             ASKO_celery_broker_url: redis://redis:6379
             ASKO_celery_result_backend: redis://redis:6379
@@ -48,7 +50,7 @@ services:
             ASKO_triplestore_upload_method: load
             ASKO_triplestore_default_graph: urn:sparql:askomics
             ASKO_triplestore_users_graph: urn:sparql:askomics:users
-            ASKO_result_set_max_rows: 100000000 # Same as VIRT_SPARQL_ResultSetMaxRows in virtuoso
+            ASKO_result_set_max_rows: 1000000000 # Same as VIRT_SPARQL_ResultSetMaxRows in virtuoso
         volumes:
             - ./output/askomics:/tmp/askomics
 
@@ -58,13 +60,13 @@ services:
     virtuoso:
         image: askomics/virtuoso
         environment:
-            VIRT_Parameters_NumberOfBuffers: 10000   # See README.md to adapt value of this line
-            VIRT_Parameters_MaxDirtyBuffers: 6000    # See README.md to adapt value of this line
+            VIRT_Parameters_NumberOfBuffers: 170000   # See README.md to adapt value of this line
+            VIRT_Parameters_MaxDirtyBuffers: 130000    # See README.md to adapt value of this line
             VIRT_Parameters_TN_MAX_memory: 4000000000
-            VIRT_SPARQL_ResultSetMaxRows: 100000000 # same as ASKO_result_set_max_rows in askomics and askomics_celery
+            VIRT_SPARQL_ResultSetMaxRows: 1000000000 # same as ASKO_result_set_max_rows in askomics and askomics_celery
             VIRT_SPARQL_MaxDataSourceSize: 1000000000
-            VIRT_SPARQL_MaxQueryCostEstimationTime: 400000
-            VIRT_SPARQL_MaxQueryExecutionTime: 60000000
+            VIRT_SPARQL_MaxQueryCostEstimationTime: 0 # 0 = infinite
+            VIRT_SPARQL_MaxQueryExecutionTime: 0 # 0 = infinite
             DBA_PASSWORD: rlHesft1Q # Same as ASKO_triplestore_password in askomics and askomics_celery
             SPARQL_UPDATE: "true"
             DEFAULT_GRAPH: http://localhost:8890/DAV
