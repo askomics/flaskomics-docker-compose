@@ -8,8 +8,10 @@ A docker-compose file to deploy FlAskOmics with all its dependencies. It include
 - redis (database, celery dependency)
 - virtuoso (triplestore)
 - nginx (web proxy)
+- (optional) ouroboros (auto-updater)
 
 ## Install docker and docker-compose
+
 ```bash
 # docker
 sudo curl -sSL https://get.docker.com/ | sh
@@ -22,16 +24,30 @@ sudo dnf install -y docker-compose
 
 ## Configure AskOmics
 
-In `docker-compose.yml`, update the following values:
 
-- askomics and celery_askomics images
+All properties defined in `askomics.ini` can be configured via the environment variables. The environment variable should be prefixed with `ASKO_` and have a format like `ASKO_$SECTION_$KEY`. `$SECTION` and `$KEY` are case sensitive.
 
-    - ASKO_flask_secret_key: random string
-    - ASKO_askomics_footer_message: custom message for your instance (optional)
-    - ASKO_askomics_password_salt: random string
-    - ASKO_triplestore_password: secure password for the triplestore, same password in the virtuoso image
+If you use AskOmics in production mode, the following 3 properties have to be updated with random string:
+
+- `ASKO_flask_secret_key`
+- `ASKO_askomics_password_salt`
+- `ASKO_triplestore_password`
+
+You can easily obtain a random string with these commands:
+
+```bash
+python3 -c 'import random as r, string as s; print("".join(r.choices(s.printable[:62], k=20)))'
+# or
+pwgen -s 20 1
+```
+
+`ASKO_triplestore_password` have to be the same as `DBA_PASSWORD` in the virtuoso image.
+
+askomics and celery_askomics must have the same environment variables.
 
 ## Configure Virtuoso
+
+All properties defined in `virtuoso.ini` can be configured via the environment variables. The environment variable should be prefixed with `VIRT_` and have a format like `VIRT_$SECTION_$KEY`. `$SECTION` and `$KEY` are case sensitive.
 
 Update the `VIRT_Parameters_NumberOfBuffers` and `VIRT_Parameters_MaxDirtyBuffers` environments according to how much memory do you want to allow to Virtuoso:
 
@@ -48,47 +64,62 @@ Update the `VIRT_Parameters_NumberOfBuffers` and `VIRT_Parameters_MaxDirtyBuffer
 | 64                    | 5450000         | 4000000         |
 
 
+## Auto update
+
+**Ouroboros watch all dockers on your machine, don't use it on a shared environment**
+
+Uncomment the ouroboros image if you want your AskOmics to be auto-updated when a new version is released.
+
 ## Run FlAskOmics
 
 Clone this repository
 
 ```bash
+# Clone
 git clone https://github.com/xgaia/flaskomics-docker-compose.git
+# cd
+cd flaskomics-docker-compose
+```
+
+Update the config
+
+```bash
+vim docker-compose.yml
 ```
 
 Pull images
 
 ```bash
-docker-compose pull
+sudo docker-compose pull
 ```
 
 Run dockers
 
 ```bash
-docker-compose up -d
+sudo docker-compose up -d
 ```
 
 See logs
 
 ```bash
-docker-compose logs -f
+sudo docker-compose logs -f
 ```
 
 Update
 
 ```bash
 # Down, pull and re-run
-docker-compose down
-docker-compose pull
-docker-compose up -d
+sudo docker-compose down
+sudo docker-compose pull
+sudo docker-compose up -d
 ```
 
 Update with complete reset (database, files, rdf graphs ...)
 
 ```bash
 # Down, pull and re-run
-docker-compose down
-rm -rf output
-docker-compose pull
-docker-compose up -d
+sudo docker-compose down
+sudo rm -rf output
+sudo docker-compose pull
+sudo docker-compose up -d
 ```
