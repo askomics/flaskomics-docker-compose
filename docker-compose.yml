@@ -25,12 +25,12 @@ services:
         image: redis:4.0
 
     nginx:
-        image: nginx:1.15
+        image: nginx:1.17
         volumes:
             - ./nginx.conf:/tmp/nginx.conf
             - ./output/nginx/log:/var/log/nginx
         ports:
-            - "8028:80"
+            - "80:80"
         env_file:
             - nginx.env
         command: /bin/bash -c "envsubst < /tmp/nginx.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
