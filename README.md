@@ -1,4 +1,4 @@
-# FlAskOmics - docker-compose files
+# FlAskOmics - docker-compose file
 
 
 A docker-compose file to deploy FlAskOmics with all its dependencies. It includes:
@@ -25,7 +25,7 @@ sudo dnf install -y docker-compose
 ## Configure AskOmics
 
 
-All properties defined in `askomics.ini` can be configured via the environment variables. The environment variable should be prefixed with `ASKO_` and have a format like `ASKO_$SECTION_$KEY`. `$SECTION` and `$KEY` are case sensitive.
+All properties defined in `askomics.ini` can be configured via the environment variables defined in the file `askomics.env`. The environment variable should be prefixed with `ASKO_` and have a format like `ASKO_$SECTION_$KEY`. `$SECTION` and `$KEY` are case sensitive.
 
 If you use AskOmics in production mode, the following 3 properties have to be updated with random string:
 
@@ -43,11 +43,10 @@ pwgen -s 20 1
 
 `ASKO_triplestore_password` have to be the same as `DBA_PASSWORD` in the virtuoso image.
 
-askomics and celery_askomics must have the same environment variables.
 
 ## Configure Virtuoso
 
-All properties defined in `virtuoso.ini` can be configured via the environment variables. The environment variable should be prefixed with `VIRT_` and have a format like `VIRT_$SECTION_$KEY`. `$SECTION` and `$KEY` are case sensitive.
+All properties defined in `virtuoso.ini` can be configured via the environment variables defined in `virtuoso.env`. The environment variable should be prefixed with `VIRT_` and have a format like `VIRT_$SECTION_$KEY`. `$SECTION` and `$KEY` are case sensitive.
 
 Update the `VIRT_Parameters_NumberOfBuffers` and `VIRT_Parameters_MaxDirtyBuffers` environments according to how much memory do you want to allow to Virtuoso:
 
@@ -84,7 +83,8 @@ cd flaskomics-docker-compose
 Update the config
 
 ```bash
-vim docker-compose.yml
+vim askomics.env
+vim virtuoso.env
 ```
 
 Pull images
