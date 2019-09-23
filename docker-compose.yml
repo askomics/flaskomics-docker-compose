@@ -1,14 +1,14 @@
 version: "3"
 services:
     askomics:
-        image: xgaia/flaskomics:latest
+        image: xgaia/flaskomics:3.0.0
         env_file:
             - askomics.env
         volumes:
             - ./output/askomics:/tmp/askomics
 
     celery_askomics:
-        image: xgaia/celery-flaskomics:latest
+        image: xgaia/celery-flaskomics:3.0.0
         env_file:
             - askomics.env
         volumes:
