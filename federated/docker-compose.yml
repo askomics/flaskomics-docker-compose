@@ -1,0 +1,48 @@
+version: "3"
+services:
+    askomics:
+        image: askomics/flaskomics:latest
+        env_file:
+            - askomics.env
+        volumes:
+            - ./output/askomics:/tmp/askomics
+
+    celery_askomics:
+        image: askomics/celery-flaskomics:latest
+        env_file:
+            - askomics.env
+        volumes:
+            - ./output/askomics:/tmp/askomics
+
+    virtuoso:
+        image: askomics/virtuoso:7.2.5.1
+        env_file:
+            - virtuoso.env
+        volumes:
+            - ./output/virtuoso:/data
+
+    corese:
+        image: xgaia/corese:4.1.1-rc1
+
+    redis:
+        image: redis:4.0
+
+    nginx:
+        image: nginx:1.17
+        volumes:
+            - ./nginx.conf:/tmp/nginx.conf
+            - ./output/nginx/log:/var/log/nginx
+        ports:
+            - "80:80"
+        env_file:
+            - nginx.env
+        command: /bin/bash -c "envsubst < /tmp/nginx.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+
+
+    # Uncomment ouroboro image to auto-update askomics when a new version is available
+
+    # ouroboros:
+    #     image: pyouroboros/ouroboros:1.4.1
+    #     volumes:
+    #         - /var/run/docker.sock:/var/run/docker.sock
+    #     command: --interval 300

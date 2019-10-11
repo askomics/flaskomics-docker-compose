@@ -1,14 +1,6 @@
 # FlAskOmics - docker-compose file
 
-
-A docker-compose file to deploy FlAskOmics with all its dependencies. It includes:
-
-- flaskomics
-- celery-flaskomics (flaskomics worker)
-- redis (database, celery dependency)
-- virtuoso (triplestore)
-- nginx (web proxy)
-- (optional) ouroboros (auto-updater)
+Some docker-compose files to deploy AskOmics and all its dependencies.
 
 ## Install docker and docker-compose
 
@@ -21,6 +13,30 @@ sudo apt install -y docker-compose
 # Fedora
 sudo dnf install -y docker-compose
 ```
+
+## [Standalone](standalone)
+
+Deploy AskOmics to perform queries on your own data
+
+- flaskomics
+- celery-flaskomics (flaskomics worker)
+- redis (database, celery dependency)
+- virtuoso (triplestore)
+- nginx (web proxy)
+- (optional) ouroboros (auto-updater)
+
+## [Federated](federated)
+
+Deploy AskOmics with a federated query engine to perform queries on multiple endpoints
+
+- flaskomics
+- celery-flaskomics (flaskomics worker)
+- redis (database, celery dependency)
+- virtuoso (triplestore)
+- corese (federated query engine)
+- nginx (web proxy)
+- (optional) ouroboros (auto-updater)
+
 
 ## Configure AskOmics
 
