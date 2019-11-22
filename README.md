@@ -1,4 +1,4 @@
-# FlAskOmics - docker-compose file
+# AskOmics - docker-compose file
 
 Some docker-compose files to deploy AskOmics and all its dependencies.
 
@@ -37,6 +37,23 @@ Deploy AskOmics with a federated query engine to perform queries on multiple end
 - nginx (web proxy)
 - (optional) ouroboros (auto-updater)
 
+## [Dev](dev)
+
+Deploy AskOmics dependencies without AskOmics, and persist data
+
+- redis (database, celery dependency)
+- virtuoso (triplestore)
+- corese (federated query engine)
+- galaxy
+
+## [CI](ci)
+
+Deploy AskOmics dependencies without AskOmics, on different port than [dev](dev), and without data persistence. Use this to launch the AskOmics continuous integration (`test.sh` on AskOmics repository)
+
+- redis (database, celery dependency)
+- virtuoso (triplestore)
+- corese (federated query engine)
+- galaxy
 
 ## Configure AskOmics
 
@@ -85,7 +102,7 @@ Update the `VIRT_Parameters_NumberOfBuffers` and `VIRT_Parameters_MaxDirtyBuffer
 
 Uncomment the ouroboros image if you want your AskOmics to be auto-updated when a new version is released.
 
-## Run FlAskOmics
+## Run AskOmics
 
 Clone this repository
 
@@ -94,6 +111,15 @@ Clone this repository
 git clone https://github.com/xgaia/flaskomics-docker-compose.git
 # cd
 cd flaskomics-docker-compose
+```
+
+Choose between standalone and federated
+
+```bash
+# Clone
+cd standalone
+# Or
+cd federated
 ```
 
 Update the config
