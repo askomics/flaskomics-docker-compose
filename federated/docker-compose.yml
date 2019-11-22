@@ -1,14 +1,14 @@
 version: "3"
 services:
     askomics:
-        image: askomics/flaskomics:latest
+        image: askomics/flaskomics:3.2.0
         env_file:
             - askomics.env
         volumes:
             - ./output/askomics:/tmp/askomics
 
     celery_askomics:
-        image: askomics/celery-flaskomics:latest
+        image: askomics/celery-flaskomics:3.2.0
         env_file:
             - askomics.env
         volumes:
@@ -22,7 +22,7 @@ services:
             - ./output/virtuoso:/data
 
     corese:
-        image: xgaia/corese:4.1.1-rc1
+        image: xgaia/corese:latest
 
     redis:
         image: redis:4.0
