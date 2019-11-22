@@ -1,0 +1,34 @@
+version: "3"
+services:
+    virtuoso:
+        image: askomics/virtuoso:7.2.5.1
+        env_file:
+            - virtuoso.env
+        command:
+            - /bin/sh
+            - -c
+            - netstat -nr | grep '^0\.0\.0\.0' | awk '{print $$2 " askomics-host"}' >> /etc/hosts && sh /virtuoso/virtuoso.sh
+        ports:
+            - "8890:8890"
+        volumes:
+            - ./storage/virtuoso:/data
+    redis:
+        image: redis:4.0
+        ports:
+            - "6379:6379"
+    galaxy:
+        image: bgruening/galaxy-stable:19.01
+        environment:
+            GALAXY_CONFIG_BRAND: Galaxy - AskOmics
+        ports:
+            - "8008:80"
+        volumes:
+            - ./storage/galaxy:/export
+    corese:
+        image: xgaia/corese:latest
+        command:
+            - /bin/sh
+            - -c
+            - netstat -nr | grep '^0\.0\.0\.0' | awk '{print $$2 " askomics-host"}' >> /etc/hosts && /corese/start.sh
+        ports:
+            - "8080:8080"
