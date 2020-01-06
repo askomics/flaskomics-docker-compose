@@ -20,7 +20,7 @@ services:
             VIRTUOSO_HOST: virtuoso
             VIRTUOSO_ISQL_PORT: 1111
             ISQL_API_VIRTUOSO_USERNAME: dba
-            ISQL_API_VIRTUOSO_PASSWORD: rlHesft1Q
+            ISQL_API_VIRTUOSO_PASSWORD: dba
 
         ports:
             - "5050:5050"
