@@ -10,6 +10,19 @@ services:
             - netstat -nr | grep '^0\.0\.0\.0' | awk '{print $$2 " askomics-host"}' >> /etc/hosts && sh /virtuoso/virtuoso.sh
         ports:
             - "8891:8890"
+
+    isqlapi:
+        image: xgaia/isql-api:1.0.1
+        environment:
+            ISQL_API_VIRTUOSO_DSN: virtuoso
+            VIRTUOSO_HOST: virtuoso
+            VIRTUOSO_ISQL_PORT: 1111
+            ISQL_API_VIRTUOSO_USERNAME: dba
+            ISQL_API_VIRTUOSO_PASSWORD: dba
+
+        ports:
+            - "5051:5050"
+
     redis:
         image: redis:4.0
         ports:
