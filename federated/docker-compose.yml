@@ -1,14 +1,14 @@
 version: "3"
 services:
     askomics:
-        image: askomics/flaskomics:3.2.1
+        image: askomics/flaskomics:3.2.2
         env_file:
             - askomics.env
         volumes:
             - ./output/askomics:/tmp/askomics
 
     celery_askomics:
-        image: askomics/celery-flaskomics:3.2.1
+        image: askomics/celery-flaskomics:3.2.2
         env_file:
             - askomics.env
         volumes:
@@ -22,7 +22,7 @@ services:
             - ./output/virtuoso:/data
 
     isqlapi:
-        image: xgaia/isql-api:1.0.1
+        image: xgaia/isql-api:2.1.0
         environment:
             ISQL_API_VIRTUOSO_DSN: virtuoso
             VIRTUOSO_HOST: virtuoso

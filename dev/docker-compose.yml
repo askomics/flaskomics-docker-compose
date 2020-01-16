@@ -14,7 +14,7 @@ services:
             - ./storage/virtuoso:/data
 
     isqlapi:
-        image: xgaia/isql-api:1.0.1
+        image: xgaia/isql-api:2.1.0
         environment:
             ISQL_API_VIRTUOSO_DSN: virtuoso
             VIRTUOSO_HOST: virtuoso
