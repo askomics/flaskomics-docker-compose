@@ -14,8 +14,9 @@ services:
             - ./storage/virtuoso:/data
 
     isqlapi:
-        image: xgaia/isql-api:2.1.0
+        image: xgaia/isql-api:2.1.1
         environment:
+            WORKER_NUMBER: 20
             ISQL_API_VIRTUOSO_DSN: virtuoso
             VIRTUOSO_HOST: virtuoso
             VIRTUOSO_ISQL_PORT: 1111
