@@ -96,12 +96,6 @@ Update the `VIRT_Parameters_NumberOfBuffers` and `VIRT_Parameters_MaxDirtyBuffer
 | 64                    | 5450000         | 4000000         |
 
 
-## Auto update
-
-**Ouroboros watch all dockers on your machine, don't use it on a shared environment**
-
-Uncomment the ouroboros image if you want your AskOmics to be auto-updated when a new version is released.
-
 ## Run AskOmics
 
 Clone this repository
