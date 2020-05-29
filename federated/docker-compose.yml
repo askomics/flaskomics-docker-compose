@@ -47,12 +47,3 @@ services:
         env_file:
             - nginx.env
         command: /bin/bash -c "envsubst < /tmp/nginx.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
-
-
-    # Uncomment ouroboro image to auto-update askomics when a new version is available
-
-    # ouroboros:
-    #     image: pyouroboros/ouroboros:1.4.1
-    #     volumes:
-    #         - /var/run/docker.sock:/var/run/docker.sock
-    #     command: --interval 300
