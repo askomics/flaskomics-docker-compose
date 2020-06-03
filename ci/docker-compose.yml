@@ -42,3 +42,19 @@ services:
             - netstat -nr | grep '^0\.0\.0\.0' | awk '{print $$2 " askomics-host"}' >> /etc/hosts && /corese/start.sh
         ports:
             - "8082:8080"
+
+    ldap:
+        image: xgaia/simple-ldap
+        environment:
+            ORGANISATION_NAME: AskOmics
+            SUFFIX: dc=askomics,dc=org
+            ROOT_USER: admin
+            ROOT_PW_CLEAR: admin
+            FIRST_USER: 'true'
+            USER_UID: jwick
+            USER_GIVEN_NAME: John
+            USER_SURNAME: Wick
+            USER_EMAIL: john.wick@askomics.org
+            USER_PW_CLEAR: jwick
+        ports:
+            - 8389:389
