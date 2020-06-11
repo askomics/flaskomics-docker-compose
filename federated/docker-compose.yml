@@ -32,7 +32,9 @@ services:
             ISQL_API_VIRTUOSO_PASSWORD: rlHesft1Q
 
     corese:
-        image: xgaia/corese:latest
+        image: xgaia/corese:20.6.11
+        environment:
+            MEM: 1G
 
     redis:
         image: redis:4.0

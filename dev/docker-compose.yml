@@ -39,7 +39,9 @@ services:
         volumes:
             - ./storage/galaxy:/export
     corese:
-        image: xgaia/corese:latest
+        image: xgaia/corese:20.6.11
+        environment:
+            MEM: 1G
         command:
             - /bin/sh
             - -c
