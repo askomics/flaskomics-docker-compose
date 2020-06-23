@@ -41,7 +41,7 @@ services:
     corese:
         image: xgaia/corese:20.6.11
         environment:
-            MEM: 1G
+            MEM: 2G
         command:
             - /bin/sh
             - -c
