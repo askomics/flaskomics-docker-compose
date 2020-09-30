@@ -29,7 +29,7 @@ services:
         ports:
             - "6380:6379"
     galaxy:
-        image: bgruening/galaxy-stable:19.01
+        image: bgruening/galaxy-stable:20.05
         environment:
             GALAXY_CONFIG_BRAND: Galaxy - AskOmics CI
         ports:
